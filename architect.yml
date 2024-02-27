@@ -1,18 +1,13 @@
-name: springboot
-
+name: springbootemplate
 description: |
   An example Architect component that uses Spring Boot to serve the API and
   Hibernate to connect to an auto-provisioned PostgreSQL database.
-
 keywords:
   - java
   - spring
   - hibernate
   - postgresql
   - microservice
-
-# Add secrets to be used by different services. For more information:
-# https://docs.architect.io/deployments/secrets/
 secrets:
   database_name:
     default: default_db
@@ -20,82 +15,60 @@ secrets:
     default: default_user
   database_password:
     default: default_pw
-
-# Below are the configured services for the Spring Boot component.
-# For more info - https://docs.architect.io/components/services/
 services:
-  ### This service is the actual Spring Boot component ###
   app:
-    # Build context is the location of your application relative to the architect.yml file
     build:
       context: .
-    # interfaces are used to expose our application to the gateway, allowing
-    #   other services and dependencies to connect to one another.
-    #   For more info - https://docs.architect.io/components/interfaces/
     interfaces:
       main:
         port: 3000
         ingress:
           subdomain: app
-    # Set environment variables for your application here
     environment:
       SPRING_PORT: 3000
-      APP_URL: ${{ services.app.interfaces.main.ingress.url }}
-      POSTGRES_USERNAME: ${{ secrets.database_user }}
-      POSTGRES_PASSWORD: ${{ secrets.database_password }}
-      POSTGRES_URL: jdbc:postgresql://${{ services.database.interfaces.main.host }}:${{ services.database.interfaces.main.port }}/${{ secrets.database_name }}
+      APP_URL: '${{ services.app.interfaces.main.ingress.url }}'
+      POSTGRES_USERNAME: '${{ secrets.database_user }}'
+      POSTGRES_PASSWORD: '${{ secrets.database_password }}'
+      POSTGRES_URL: >-
+        jdbc:postgresql://${{ services.database.interfaces.main.host }}:${{
+        services.database.interfaces.main.port }}/${{ secrets.database_name }}
       ENVIRONMENT: prod
-    # We want our app to start up after the db is running so that we can connect to it on startup!
-    # This block contains a list of services we need to start before 'app' starts.
     depends_on:
       - database
-    # The liveness_probe makes sure the application is healthy - if not, it will re-start the application
     liveness_probe:
-      # Uses curl to check if this route returns a 200
       path: /health
       port: 3000
       interval: 10s
-      initial_delay: 30s # Spring Boot takes ~30s to start app
-    # Debug block is used to modify behavior when running `architect dev` (without the --debug=false flag)
-    #   One common example is to enable hot-reloading for local development. For more info, see -
-    #   https://docs.architect.io/components/local-configuration/#hot-reloading
+      initial_delay: 30s
     debug:
       build:
         dockerfile: Dockerfile.dev
-      command: mvn spring-boot:run -Dspring.devtools.restart.enabled=true
+      command: 'mvn spring-boot:run -Dspring.devtools.restart.enabled=true'
       volumes:
-        # The name of the volume we are creating
         src:
-          # Path to source code we want to mount relative to the architect.yml file
           host_path: ./src
-          # The WORKDIR/src defined in the Dockerfile, where we want our code to be mounted
           mount_path: /opt/code/src
         target:
-          # Path to target directory we want to mount relative to the architect.yml file
           host_path: ./target
-          # The WORKDIR/target defined in the Dockerfile, where builds will be located
           mount_path: /opt/code/target
       environment:
         ENVIRONMENT: dev
-
-  # This is an additional service that adds a postgres database
-  #   to show off Architect's support for microservice architecture
-  #   through service discovery. For more info, check out:
-  #   https://docs.architect.io/components/service-discovery/
   database:
-    image: postgres:14
+    image: 'postgres:14'
     environment:
-      POSTGRES_DB: ${{ secrets.database_name }}
-      POSTGRES_USER: ${{ secrets.database_user }}
-      POSTGRES_PASSWORD: ${{ secrets.database_password }}
+      POSTGRES_DB: '${{ secrets.database_name }}'
+      POSTGRES_USER: '${{ secrets.database_user }}'
+      POSTGRES_PASSWORD: '${{ secrets.database_password }}'
     interfaces:
       main:
         port: 5432
         protocol: postgresql
-        username: ${{ secrets.database_user }}
-        password: ${{ secrets.database_password }}
-        path: /${{ secrets.database_name }}
+        username: '${{ secrets.database_user }}'
+        password: '${{ secrets.database_password }}'
+        path: '/${{ secrets.database_name }}'
     liveness_probe:
-      command: pg_isready -d ${{ secrets.database_name }} -U ${{ secrets.database_user }}
+      command: >-
+        pg_isready -d ${{ secrets.database_name }} -U ${{ secrets.database_user
+        }}
       interval: 10s
       failure_threshold: 3
