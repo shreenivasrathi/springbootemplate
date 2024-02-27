@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - uses: crazy-max/ghaction-github-runtime@v2 # Exports internal envs for Github Actions. Required for register caching to work.
       - name: Install Architect CLI
         run: npm install -g @architect-io/cli
