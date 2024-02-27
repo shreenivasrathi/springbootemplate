@@ -30,10 +30,10 @@ jobs:
         run: npm install -g @architect-io/cli
       - name: Login to Architect Cloud
         run: architect login -e ${{ secrets.ARCHITECT_EMAIL }} -p ${{ secrets.ARCHITECT_PASSWORD }} # These secrets were created on your behalf
-      - name: display compose
-        run: cat /home/runner/.config/architect/docker-compose/register.springbootemplate.latest.yml
       - name: Register component w/ Architect
         run: architect register ${{ env.COMPONENT_FILE_PATH }} -t latest
+      - name: display compose
+        run: cat /home/runner/.config/architect/docker-compose/register.springbootemplate.latest.yml
       - name: An environment created automatically by a GitHub branch workflow to facilitate automated component deployments
         run: architect environment:create --cluster=${{ env.CLUSTER_NAME }} --description="Architect workflow environment" ${{ env.ENVIRONMENT_NAME }}
       - name: Deploy component
