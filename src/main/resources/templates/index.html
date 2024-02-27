@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Architect - "Spring Boot" app</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <p class="logo">
+        <a href="//architect.io" target="blank">
+          <img src="https://cdn.architect.io/logo/horizontal.png" width="320" alt="Architect Logo" />
+        </a>
+      </p>
+
+      <br />
+
+      <h1>Favorite Movies</h1>
+
+      <br />
+
+      <form th:object="${formData}" th:action="@{/movierating}" method="post">
+        <div class="user-inputs">
+          <div class="form-control">
+            <input id="title" type="text" placeholder="Title*" th:field="*{title}">
+            <p style="color: red; text-align: left;" th:if="${#fields.hasErrors('title')}" th:text="${#strings.listJoin(#fields.errors('title'), ', ')}"></p>
+          </div>
+          <div class="form-control">
+            <input id="rating" type="number" placeholder="Rating (1-5)*" th:field="*{rating}">
+            <p style="color: red; text-align: left;" th:if="${#fields.hasErrors('rating')}" th:text="${#strings.listJoin(#fields.errors('rating'), ', ')}"></p>
+          </div>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+      <br />
+
+      <div th:unless="${#lists.isEmpty(movieRatings)}">
+        <table>
+          <tr>
+            <th>Movie Title</th>
+            <th>Movie Rating</th>
+          </tr>
+          <tr th:each="item : ${movieRatings}">
+            <td th:text="${item.title}"></td>
+            <td th:text="${item.rating}"></td>
+          </tr>
+        </table>
+      </div>
+      <div th:if="${#lists.isEmpty(movieRatings)}">
+        No entries found
+      </div>
+    </div>
+  </body>
+</html>
