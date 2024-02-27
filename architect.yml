@@ -41,15 +41,6 @@ services:
       interval: 10s
       initial_delay: 30s
       command: 'mvn spring-boot:run -Dspring.devtools.restart.enabled=true'
-      volumes:
-        src:
-          host_path: ./src
-          mount_path: /opt/code/src
-        target:
-          host_path: ./target
-          mount_path: /opt/code/target
-      environment:
-        ENVIRONMENT: dev
   database:
     image: 'postgres:14'
     environment:
