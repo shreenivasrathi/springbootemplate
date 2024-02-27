@@ -40,9 +40,6 @@ services:
       port: 3000
       interval: 10s
       initial_delay: 30s
-    debug:
-      build:
-        dockerfile: Dockerfile.dev
       command: 'mvn spring-boot:run -Dspring.devtools.restart.enabled=true'
       volumes:
         src:
