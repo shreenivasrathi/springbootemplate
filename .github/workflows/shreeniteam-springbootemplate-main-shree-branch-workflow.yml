@@ -19,6 +19,8 @@ jobs:
   architect_create_branch_deployments:
     runs-on: ubuntu-latest
     steps:
+      - name: Check Docker Version
+        run: docker --version
       - name: Install Latest Docker
         run: |
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -36,6 +38,8 @@ jobs:
         run: npm install -g @architect-io/cli
       - name: Login to Architect Cloud
         run: architect login -e ${{ secrets.ARCHITECT_EMAIL }} -p ${{ secrets.ARCHITECT_PASSWORD }} # These secrets were created on your behalf
+      - name: Check Docker Version
+        run: docker --version
       - name: Register component w/ Architect
         run: architect register ${{ env.COMPONENT_FILE_PATH }} -t latest
       - name: An environment created automatically by a GitHub branch workflow to facilitate automated component deployments
