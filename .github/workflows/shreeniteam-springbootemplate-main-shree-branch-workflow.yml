@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Check Docker Version
         run: docker --version
+      - name: docker available version
+        run: apt-cache madison docker-ce | awk '{ print $3 }'
       - name: Install Latest Docker
         run: |
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
