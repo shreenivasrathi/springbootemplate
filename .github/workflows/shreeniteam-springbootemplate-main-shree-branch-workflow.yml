@@ -45,6 +45,8 @@ jobs:
       - name: Login to Architect Cloud
         run: architect login -e ${{ secrets.ARCHITECT_EMAIL }} -p ${{ secrets.ARCHITECT_PASSWORD }} # These secrets were created on your behalf
       - name: Check Docker Version
+        run: docker compose --version
+      - name: Check Docker Version
         run: docker-compose --version
       - name: Register component w/ Architect
         run: architect register ${{ env.COMPONENT_FILE_PATH }} -t latest
