@@ -33,9 +33,11 @@ jobs:
           sudo apt-get remove docker-compose-plugin
           sudo apt-get remove docker-buildx-plugin
           sudo rm -f /usr/local/bin/docker-compose
-          sudo apt-get --allow-downgrades install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin
+          sudo apt-get --allow-downgrades install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io
           sudo apt-get --allow-downgrades install docker-compose-plugin=2.21.0-1~ubuntu.22.04~jammy
           #sudo curl -L "https://github.com/docker/compose/releases/download/2.21.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.BRANCH_NAME }}
