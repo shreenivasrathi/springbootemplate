@@ -27,7 +27,7 @@ jobs:
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
           sudo apt-get update
-          VERSION_STRING=5:21.0.0-1~ubuntu.22.04~jammy
+          VERSION_STRING=5:23.0.0-1~ubuntu.22.04~jammy
           sudo apt-get remove docker-compose-plugin
           sudo apt-get remove docker-buildx-plugin
           sudo rm -f /usr/local/bin/docker-compose
