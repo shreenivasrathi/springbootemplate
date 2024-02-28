@@ -30,10 +30,12 @@ jobs:
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
           sudo apt-get update
           VERSION_STRING=5:23.0.0-1~ubuntu.22.04~jammy
-          #sudo apt-get --allow-downgrades install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin=2.21.0-1~ubuntu.22.04~jammy
+          sudo apt-get remove docker-compose-plugin
+          sudo apt-get remove docker-buildx-plugin
+          sudo rm -f /usr/local/bin/docker-compose
+          sudo apt-get --allow-downgrades install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin
           sudo apt-get --allow-downgrades install docker-compose-plugin=2.21.0-1~ubuntu.22.04~jammy
-          sudo curl -L "https://github.com/docker/compose/releases/download/2.21.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          #sudo curl -L "https://github.com/docker/compose/releases/download/2.21.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.BRANCH_NAME }}
