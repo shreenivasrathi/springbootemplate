@@ -40,19 +40,6 @@ services:
       port: 3000
       interval: 10s
       initial_delay: 30s
-    debug:
-      build:
-        dockerfile: Dockerfile.dev
-      command: 'mvn spring-boot:run -Dspring.devtools.restart.enabled=true'
-      volumes:
-        src:
-          host_path: ./src
-          mount_path: /opt/code/src
-        target:
-          host_path: ./target
-          mount_path: /opt/code/target
-      environment:
-        ENVIRONMENT: dev
   database:
     image: 'postgres:14'
     environment:
