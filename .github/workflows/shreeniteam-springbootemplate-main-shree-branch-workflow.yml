@@ -29,8 +29,8 @@ jobs:
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
           sudo apt-get update
-          VERSION_STRING=5:19.03.9~3-0~ubuntu-focal
-          sudo apt-get --allow-downgrades install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
+          VERSION_STRING=5:23.0.6-1~ubuntu.22.04~jammy
+          sudo apt-get --allow-downgrades install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin=2.21.0-1~ubuntu.22.04~jammy
          # sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           #sudo chmod +x /usr/local/bin/docker-compose
       - uses: actions/checkout@v3
