@@ -30,7 +30,7 @@ jobs:
           sudo apt-get update
           VERSION_STRING=5:23.0.0-1~ubuntu.22.04~jammy
           sudo apt-get --allow-downgrades install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin
-          sudo curl -L "https://github.com/docker/compose/releases/download/2.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
       - uses: actions/checkout@v3
         with:
@@ -44,7 +44,7 @@ jobs:
       - name: Login to Architect Cloud
         run: architect login -e ${{ secrets.ARCHITECT_EMAIL }} -p ${{ secrets.ARCHITECT_PASSWORD }} # These secrets were created on your behalf
       - name: Check Docker Version
-        run: docker compose --version
+        run: docker-compose --version
       - name: Register component w/ Architect
         run: architect register ${{ env.COMPONENT_FILE_PATH }} -t latest
       - name: An environment created automatically by a GitHub branch workflow to facilitate automated component deployments
