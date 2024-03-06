@@ -54,4 +54,4 @@ jobs:
       - name: An environment created automatically by a GitHub branch workflow to facilitate automated component deployments
         run: architect environment:create --cluster=${{ env.CLUSTER_NAME }} --description="Architect workflow environment" ${{ env.ENVIRONMENT_NAME }}
       - name: Deploy component
-        run: architect deploy --auto-approve -e ${{ env.ENVIRONMENT_NAME }} ${{ env.COMPONENT_NAME }}:latest
+        run: architect deploy --auto-approve -e ${{ env.ENVIRONMENT_NAME }} ${{ env.COMPONENT_NAME }}:v1
